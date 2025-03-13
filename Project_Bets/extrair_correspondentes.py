@@ -4,7 +4,7 @@ import openpyxl
 
 # Carregar o cabeçalho para verificar os nomes das colunas
 df_cabecalho = pd.read_excel(
-    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202503CORRESPONDENTES.xlsx",
+    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202412CORRESPONDENTES.xlsx",
     engine="openpyxl",
     nrows=1
 )
@@ -35,7 +35,7 @@ colunas_utilizadas = [col.strip() for col in colunas_utilizadas]
 
 # Ler apenas as colunas necessárias do Excel
 df_colunas_utilizadas = pd.read_excel(
-    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202503CORRESPONDENTES.xlsx",
+    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202412CORRESPONDENTES.xlsx",
     engine="openpyxl",
     usecols=colunas_utilizadas
 )
@@ -82,10 +82,10 @@ df_colunas_utilizadas.drop(columns=colunas_para_concatenar, inplace=True)
 
 # Criando uma coluna para data
 
-df_colunas_utilizadas["Posicao"]="01/03/2025"
+df_colunas_utilizadas["Posicao"]="01/12/2024"
 
 # Mais um Print para ver o corpo do arquivo
-print(df_colunas_utilizadas[["MunicipioIBGE", "ServicosCorrespondentes","Posicao"]].head())
+#print(df_colunas_utilizadas[["MunicipioIBGE", "ServicosCorrespondentes","Posicao"]].head())
 
 # Ordem das colunas do arquivo final
 
@@ -109,7 +109,7 @@ df_colunas_utilizadas = df_colunas_utilizadas.reindex(columns=ordem_colunas)
 
 
 # Salvar o novo arquivo Excel corretamente
-nome_arquivo = "bancocentral_correspbancario_20250312_00001.csv"
+nome_arquivo = "bancocentral_correspbancario_20241212_00001.csv"
 df_colunas_utilizadas.to_csv(nome_arquivo, index=False, sep=";", encoding="utf-8-sig")
 
 # 📌 Mensagem que aparece quando o Excel é salvo corretamente
