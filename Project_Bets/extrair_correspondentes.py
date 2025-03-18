@@ -4,7 +4,7 @@ import openpyxl
 
 # Carregar o cabeçalho para verificar os nomes das colunas
 df_cabecalho = pd.read_excel(
-    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202412CORRESPONDENTES.xlsx",
+    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202503CORRESPONDENTES.xlsx",
     engine="openpyxl",
     nrows=1
 )
@@ -35,7 +35,7 @@ colunas_utilizadas = [col.strip() for col in colunas_utilizadas]
 
 # Ler apenas as colunas necessárias do Excel
 df_colunas_utilizadas = pd.read_excel(
-    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202412CORRESPONDENTES.xlsx",
+    r"C:\Users\gusta\OneDrive\Desktop\Projeto Python\Automacoes\Automacao_leads\Project_Bets\202503CORRESPONDENTES.xlsx",
     engine="openpyxl",
     usecols=colunas_utilizadas
 )
@@ -60,6 +60,15 @@ colunas_cnpj = ["CnpjContratante","CnpjCorrespondente"]
 df_colunas_utilizadas[colunas_cnpj] = df_colunas_utilizadas[colunas_cnpj].astype(str)
 df_colunas_utilizadas[colunas_cnpj] = df_colunas_utilizadas[colunas_cnpj].apply(lambda x: x.str.zfill(8))
 
+# Remover espaços das colunas que não quero
+colunas_para_corrigir = ["NomeContratante","NomeCorrespondente","Ordem","Tipo","Municipio"]
+
+df_colunas_utilizadas[colunas_para_corrigir] = df_colunas_utilizadas[colunas_para_corrigir].apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+
+# Ajustar a coluna de Municipio q ta cagada
+
+df_colunas_utilizadas["MunicipioIBGE"] = df_colunas_utilizadas["MunicipioIBGE"].astype(str).str.replace(".0","",regex=False)
+
 # Identificar todas as colunas que começam com "Inc."
 colunas_para_concatenar = [col for col in df_colunas_utilizadas.columns if col.startswith("Inc.")]
 
@@ -82,7 +91,7 @@ df_colunas_utilizadas.drop(columns=colunas_para_concatenar, inplace=True)
 
 # Criando uma coluna para data
 
-df_colunas_utilizadas["Posicao"]="01/12/2024"
+df_colunas_utilizadas["Posicao"]="2025-03-01"
 
 # Mais um Print para ver o corpo do arquivo
 #print(df_colunas_utilizadas[["MunicipioIBGE", "ServicosCorrespondentes","Posicao"]].head())
@@ -109,7 +118,7 @@ df_colunas_utilizadas = df_colunas_utilizadas.reindex(columns=ordem_colunas)
 
 
 # Salvar o novo arquivo Excel corretamente
-nome_arquivo = "bancocentral_correspbancario_20241212_00001.csv"
+nome_arquivo = "bancocentral_correspbancario_20250317_00001.csv"
 df_colunas_utilizadas.to_csv(nome_arquivo, index=False, sep=";", encoding="utf-8-sig")
 
 # 📌 Mensagem que aparece quando o Excel é salvo corretamente
